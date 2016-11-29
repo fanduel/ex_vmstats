@@ -38,7 +38,8 @@ config :ex_vmstats,
   backend: :ex_statsd,
   interval: 3000,
   use_histogram: false,
-  sched_time: false
+  sched_time: false,
+  append_hostname: false
 
 ```
 

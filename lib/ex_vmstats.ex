@@ -12,6 +12,14 @@ defmodule ExVmstats do
   def init(_args) do
     interval = Application.get_env(:ex_vmstats, :interval, 3000)
     namespace = Application.get_env(:ex_vmstats, :namespace, "vm_stats")
+    namespace = case Application.get_env(:ex_vmstats, :append_hostname, false) do
+      true -> 
+        case :inet.gethostname do
+          {:ok, hostname} -> "#{namespace}_#{hostname}"
+          _ -> namespace
+        end
+      false -> namespace
+    end
     use_histogram = Application.get_env(:ex_vmstats, :use_histogram, false)
 
     sched_time =
